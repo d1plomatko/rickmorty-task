@@ -1,0 +1,16 @@
+.container {
+  min-height: calc(100vh - 75px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &Google {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    padding: 10px 20px 10px 60px;
+    background: url("../../assets/google.png") 20px no-repeat;
+    border: 1px solid black;
+  }
+}
