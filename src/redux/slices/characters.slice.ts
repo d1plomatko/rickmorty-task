@@ -77,7 +77,7 @@ const charactersSlice = createSlice({
                 state.error = action.payload as IError
             })
 
-            .addCase(getAll.pending, (state, action) => {
+            .addCase(getAll.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
@@ -92,7 +92,7 @@ const charactersSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as IError
             })
-            .addCase(getById.pending, (state, action) => {
+            .addCase(getById.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })

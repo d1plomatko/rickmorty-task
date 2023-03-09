@@ -1,15 +1,30 @@
 .container {
   min-height: calc(100vh - 75px);
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15px;
 }
 .containerGoogle {
+  width: 300px;
   font-weight: 500;
   font-size: 20px;
   line-height: 30px;
   padding: 10px 20px 10px 60px;
   background: url("../../assets/google.png") 20px no-repeat;
+  border: 1px solid black;
+}
+.containerFacebook {
+  width: 300px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  padding: 10px 20px 10px 60px;
+  background: url("../../assets/facebook.png") 20px no-repeat;
   border: 1px solid black;
 }
 

@@ -1,8 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IGoogleUser} from "../../interfaces";
+import {IUser} from "../../interfaces";
 
 interface IState {
-    user: IGoogleUser | null;
+    user: IUser | null;
 }
 
 const initialState: IState = {

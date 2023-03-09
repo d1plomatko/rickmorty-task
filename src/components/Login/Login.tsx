@@ -1,41 +1,52 @@
-import {FC, useEffect, useState} from "react";
-import {useGoogleLogin} from "@react-oauth/google";
+import {FC} from "react";
+import {IResolveParams, LoginSocialFacebook, LoginSocialGoogle} from "reactjs-social-login";
 
-import {googleLogin} from "../../services";
 import {useAppDispatch} from "../../hooks";
-import {authActions} from "../../redux/slices/auth.slice";
 import css from './Login.module.css'
-import {IResolveParams, LoginSocialFacebook} from "reactjs-social-login";
-import {IFacebookUser} from "../../interfaces";
+import {AuthEnum} from "../../configs";
+import {authActions} from "../../redux/slices/auth.slice";
+import {IFacebookUser, IGoogleUser} from "../../interfaces";
+import {useLocation, useNavigate} from "react-router-dom";
 
-const Login:FC = () => {
+const Login: FC = () => {
 
-    const [token, setToken] = useState<string>()
+    const {GOOGLE_CLIENT_ID, FACEBOOK_APP_ID} = AuthEnum;
 
     const dispatch = useAppDispatch();
 
-    const login = useGoogleLogin({
-        onSuccess: (response) => setToken(response.access_token),
-        onError: (error) => console.log(error)
-    })
-
-    useEffect(() => {
-        if(token){
-           googleLogin(token).then(({data}) => {
-               dispatch(authActions.setUser(data))
-           }).catch(e => console.log(e))
-        }
-    }, [token, dispatch])
-
-    const appId = '1272936966939283'
-    const response = (response: IResolveParams) => console.log(response)
+    const navigate = useNavigate();
+    const {state} = useLocation();
     const error = (error: any) => console.log(error)
+
+    const fromPage = state || '/';
+    const googleLogin = (response: IResolveParams) => {
+        const user = response.data as IGoogleUser
+
+        dispatch(authActions.setUser({
+            name: user.name,
+            image: user.picture
+        }))
+        navigate(fromPage, {replace: true})
+    }
+
+    const facebookLogin = (response: IResolveParams) => {
+        const user = response.data as IFacebookUser
+
+        dispatch(authActions.setUser({
+            name: user.name,
+            image: user.picture.data.url
+        }))
+    }
 
     return (
         <div className={css.container}>
-            <button className={css.containerGoogle} onClick={() => login()}>Login with google</button>
-            <LoginSocialFacebook appId={appId} onReject={error} onResolve={response}>
-                <button>click</button>
+
+          <LoginSocialGoogle client_id={GOOGLE_CLIENT_ID} onReject={error} onResolve={googleLogin}>
+              <button className={css.containerGoogle}>Login with google</button>
+          </LoginSocialGoogle>
+
+            <LoginSocialFacebook appId={FACEBOOK_APP_ID} onReject={error} onResolve={facebookLogin}>
+                <button className={css.containerFacebook}>Login with facebook</button>
             </LoginSocialFacebook>
         </div>
     )

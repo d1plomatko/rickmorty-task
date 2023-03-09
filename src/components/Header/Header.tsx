@@ -2,7 +2,7 @@ import {FC} from "react";
 import {useNavigate} from "react-router-dom";
 
 import css from './Header.module.css'
-import {IGoogleUser} from "../../interfaces";
+import {IUser} from "../../interfaces";
 import {useAppSelector} from "../../hooks";
 const Header:FC = () => {
 
@@ -10,7 +10,7 @@ const Header:FC = () => {
 
     const {user} = useAppSelector(state => state.authReducer);
 
-    const info = JSON.parse(localStorage.getItem('user')!) as IGoogleUser || null
+    const info = JSON.parse(localStorage.getItem('user')!) as IUser || null
 
     const handleLogin = () => {
         if(info){
@@ -32,7 +32,7 @@ const Header:FC = () => {
                     !info? <></>:
                         <div className={css.user}>
                             <div className={css.userName}>{info?.name}</div>
-                            <img className={css.userAvatar} src={info?.picture} alt={info?.name}/>
+                            <img className={css.userAvatar} src={info?.image} alt={info?.name}/>
                         </div>
                 }
             </div>
