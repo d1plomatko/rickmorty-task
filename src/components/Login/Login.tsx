@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import {IResolveParams, LoginSocialFacebook, LoginSocialGoogle, objectType} from "reactjs-social-login";
 import {useLocation, useNavigate} from "react-router-dom";
 
@@ -7,10 +7,12 @@ import css from './Login.module.css'
 import {AuthEnum} from "../../configs";
 import {authActions} from "../../redux/slices/auth.slice";
 import {IFacebookUser, IGoogleUser} from "../../interfaces";
+import {Error} from "../Error/Error";
 
 const Login: FC = () => {
 
     const {GOOGLE_CLIENT_ID, FACEBOOK_APP_ID} = AuthEnum;
+    const [error, setError] = useState<string | objectType>();
 
     const dispatch = useAppDispatch();
 
@@ -39,7 +41,11 @@ const Login: FC = () => {
         navigate(fromPage, {replace: true});
     }
 
-    const handleReject = (error: string | objectType) => console.log(error)
+    const handleReject = (error: string | objectType) => setError(error)
+
+    if (error) {
+        return <Error>{JSON.stringify(error)}</Error>
+    }
 
     return (
         <div className={css.container}>
