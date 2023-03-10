@@ -10,23 +10,28 @@
   align-items: center;
   gap: 15px;
 
-  &Google {
+  &Btn {
     width: 300px;
     font-weight: 500;
     font-size: 20px;
     line-height: 30px;
     padding: 10px 20px 10px 60px;
-    background: url("../../assets/google.png") 20px no-repeat;
-    border: 1px solid black;
-  }
+    transition: background-color .25s ease;
 
-  &Facebook {
-    width: 300px;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 30px;
-    padding: 10px 20px 10px 60px;
-    background: url("../../assets/facebook.png") 20px no-repeat;
-    border: 1px solid black;
+  }
+}
+
+.google {
+  background: url("../../assets/google.png") #ece9e9 20px no-repeat;
+  &:hover {
+    background-color: #d2cfcf;
+  }
+}
+
+.facebook {
+  background: url("../../assets/facebook.png") #6e6ee0 20px no-repeat;
+  color: snow;
+  &:hover {
+    background-color: #5454b4;
   }
 }

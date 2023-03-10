@@ -1,16 +1,15 @@
 import {FC, useEffect, useRef} from "react";
+import useLocalStorage from "use-local-storage";
 
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {charactersActions} from "../../redux";
 import {CharacterCard} from "../CharacterCard/CharacterCard";
 import css from './CharacterList.module.css';
-import useLocalStorage from "use-local-storage";
 import {Error} from "../Error/Error";
-import {Loader} from "../Loader/Loader";
 
 const CharactersList: FC = () => {
 
-    const {characters, error, loading} = useAppSelector(state => state.charactersReducer)
+    const {characters, error} = useAppSelector(state => state.charactersReducer)
     const dispatch = useAppDispatch();
 
     const [name, setName] = useLocalStorage<string>('name', '');
@@ -29,9 +28,6 @@ const CharactersList: FC = () => {
         }
     };
 
-    if (error) {
-        return <Error>{error.error}</Error>
-    }
 
     return (
         <div className={css.container}>
@@ -44,11 +40,12 @@ const CharactersList: FC = () => {
                    type="text"/>
             <div className={css.containerCharacters}>
                 {
-                    loading ? <Loader/> :
+                    error ? <Error>{error.error}</Error> :
                         <>
                             {
                                 characters.map(character =>
-                                    <CharacterCard key={character.id} character={character}/>)
+                                    <CharacterCard key={character.id}
+                                                   character={character}/>)
                             }
                         </>
                 }

@@ -1,12 +1,12 @@
 import {FC} from "react";
-import {IResolveParams, LoginSocialFacebook, LoginSocialGoogle} from "reactjs-social-login";
+import {IResolveParams, LoginSocialFacebook, LoginSocialGoogle, objectType} from "reactjs-social-login";
+import {useLocation, useNavigate} from "react-router-dom";
 
 import {useAppDispatch} from "../../hooks";
 import css from './Login.module.css'
 import {AuthEnum} from "../../configs";
 import {authActions} from "../../redux/slices/auth.slice";
 import {IFacebookUser, IGoogleUser} from "../../interfaces";
-import {useLocation, useNavigate} from "react-router-dom";
 
 const Login: FC = () => {
 
@@ -16,9 +16,9 @@ const Login: FC = () => {
 
     const navigate = useNavigate();
     const {state} = useLocation();
-    const error = (error: any) => console.log(error)
 
     const fromPage = state || '/';
+
     const googleLogin = (response: IResolveParams) => {
         const user = response.data as IGoogleUser
 
@@ -26,7 +26,7 @@ const Login: FC = () => {
             name: user.name,
             image: user.picture
         }))
-        navigate(fromPage, {replace: true})
+        navigate(fromPage, {replace: true});
     }
 
     const facebookLogin = (response: IResolveParams) => {
@@ -36,17 +36,24 @@ const Login: FC = () => {
             name: user.name,
             image: user.picture.data.url
         }))
+        navigate(fromPage, {replace: true});
     }
+
+    const handleReject = (error: string | objectType) => console.log(error)
 
     return (
         <div className={css.container}>
 
-          <LoginSocialGoogle client_id={GOOGLE_CLIENT_ID} onReject={error} onResolve={googleLogin}>
-              <button className={css.containerGoogle}>Login with google</button>
-          </LoginSocialGoogle>
+            <LoginSocialGoogle client_id={GOOGLE_CLIENT_ID}
+                               onReject={handleReject}
+                               onResolve={googleLogin}>
+                <button className={`${css.containerBtn} ${css.google}`}>Login with google</button>
+            </LoginSocialGoogle>
 
-            <LoginSocialFacebook appId={FACEBOOK_APP_ID} onReject={error} onResolve={facebookLogin}>
-                <button className={css.containerFacebook}>Login with facebook</button>
+            <LoginSocialFacebook appId={FACEBOOK_APP_ID}
+                                 onReject={handleReject}
+                                 onResolve={facebookLogin}>
+                <button className={`${css.containerBtn} ${css.facebook}`}>Login with facebook</button>
             </LoginSocialFacebook>
         </div>
     )
