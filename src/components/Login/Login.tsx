@@ -24,21 +24,21 @@ const Login: FC = () => {
     const googleLogin = (response: IResolveParams) => {
         const user = response.data as IGoogleUser
 
+        navigate(fromPage, {replace: true});
         dispatch(authActions.setUser({
             name: user.name,
             image: user.picture
         }))
-        navigate(fromPage, {replace: true});
     }
 
     const facebookLogin = (response: IResolveParams) => {
         const user = response.data as IFacebookUser
 
+        navigate(fromPage, {replace: true});
         dispatch(authActions.setUser({
             name: user.name,
             image: user.picture.data.url
         }))
-        navigate(fromPage, {replace: true});
     }
 
     const handleReject = (error: string | objectType) => setError(error)

@@ -6,10 +6,11 @@ import {charactersActions} from "../../redux";
 import {CharacterCard} from "../CharacterCard/CharacterCard";
 import css from './CharacterList.module.css';
 import {Error} from "../Error/Error";
+import {Loader} from "../Loader/Loader";
 
 const CharactersList: FC = () => {
 
-    const {characters, error} = useAppSelector(state => state.charactersReducer)
+    const {characters, error, loading} = useAppSelector(state => state.charactersReducer)
     const dispatch = useAppDispatch();
 
     const [name, setName] = useLocalStorage<string>('name', '');
@@ -41,6 +42,7 @@ const CharactersList: FC = () => {
             <div className={css.containerCharacters}>
                 {
                     error ? <Error>{error.error}</Error> :
+                        loading? <Loader/>:
                         <>
                             {
                                 characters.map(character =>
